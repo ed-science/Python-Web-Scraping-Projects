@@ -16,12 +16,10 @@ def download_sitemap(url):
     if urlparse(response.url).path.endswith('.gz'):
         text = gzip.decompress(response.content).decode(response.encoding or 'utf8')
     selector = Selector(text)
-    # urls are under <loc> tag
-    # if they are direct articles they have <url> tag parent
-    urls = selector.xpath('//url/loc/text()').extract()
-    if not urls:
-        urls = selector.xpath('//loc/text()').extract()
-    return urls
+    return (
+        selector.xpath('//url/loc/text()').extract()
+        or selector.xpath('//loc/text()').extract()
+    )
 
 
 if __name__ == '__main__':
