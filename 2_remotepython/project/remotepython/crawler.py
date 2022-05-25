@@ -43,8 +43,7 @@ def parse_job(html) -> dict:
     join = lambda css, sep='': sep.join(sel.css(css).extract()).strip()
     first = lambda css: sel.css(css).extract_first(' ').strip()
 
-    item = {}
-    item['title'] = sel.css('h2.title::text').extract_first()
+    item = {'title': sel.css('h2.title::text').extract_first()}
     item['location'] = join('.job-meta a::text', ', ')
     item['job_type'] = join('ul.list-unstyled a::text')
     item['posted_date'] = join('div#affix-box p:contains("Posted:")::text').split(': ')[1]

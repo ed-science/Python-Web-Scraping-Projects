@@ -27,10 +27,10 @@ def main(cache):
 @click.option('--json', 'as_json', is_flag=True, help='show as json')
 def identify(urls, as_json):
     """identify schema.org formats of provided urls"""
-    header = f'{"url":<70}|{"jld":^5}|{"og":^5}|{"rdfa":^5}|{"mdata":^5}|{"mformat":^5}'
     if as_json:
         json_result = {}
     else:
+        header = f'{"url":<70}|{"jld":^5}|{"og":^5}|{"rdfa":^5}|{"mdata":^5}|{"mformat":^5}'
         echo('-' * len(header))
         echo(header)
         echo('-' * len(header))
@@ -47,7 +47,7 @@ def identify(urls, as_json):
         url = re.sub('https*://', '', url)
         url = re.sub('www\d*\.', '', url)
         if len(url) > 70:
-            url = url[:30] + '...' + url[-37:-1]
+            url = f'{url[:30]}...{url[-37:-1]}'
         echo(f'{url:<70}|{has_json_ld:^5}|{has_opengraph:^5}|{has_rdfa:^5}|{has_microdata:^5}|{has_microformat:^5}')
     if as_json:
         echo(json.dumps(json_result, indent=2))

@@ -44,7 +44,7 @@ class DiscoverGraphql:
         form['variables'].pop('cursor')
         # lets find our `nyt-token` header
         resp = requests.get(self.search_url)
-        nyt_token = re.findall(f'"nyt-token":"(.+?)"', resp.text)[0]
+        nyt_token = re.findall('"nyt-token":"(.+?)"', resp.text)[0]
         self.headers['nyt-token'] = nyt_token
 
         # _crawl pages in a loop
@@ -62,9 +62,7 @@ class DiscoverGraphql:
             if 'cursor' not in form['variables']:
                 total_pages = math.ceil(data['totalCount'] / form['variables']['first'])
             for article in data['edges']:
-                url = article['node']['node']['url']
-                yield url
-
+                yield article['node']['node']['url']
             # parse data for next page cursor
             next_page = data['pageInfo']
             if not next_page['hasNextPage']:

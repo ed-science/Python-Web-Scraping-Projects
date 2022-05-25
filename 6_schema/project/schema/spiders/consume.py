@@ -28,10 +28,7 @@ class SchemaCrawler:
             (RDFaExtractor(), format_rdfa),
             (OpenGraphExtractor(), format_og),
         ]
-        if headers:
-            self.headers = headers
-        else:
-            self.headers = self.default_headers
+        self.headers = headers or self.default_headers
         self.session = requests.session()
 
     def crawl(self, url):
@@ -49,7 +46,7 @@ class SchemaCrawler:
         flat = {}
         for extracted_nodes in self.crawl(url).values():
             for result in extracted_nodes:
-                flat.update(result)
+                flat |= result
         return flat
 
     def crawl_merged(self, url):

@@ -33,12 +33,11 @@ class Consumer:
     def parse_article(self, url, html) -> dict:
         """Parse html for data"""
         sel = Selector(text=html)
-        data = {
+        return {
             'url': url,
             'date': sel.css('time::attr(datetime)').extract_first(),
             'title': sel.css('h1 ::text').extract_first(),
         }
-        return data
 
     async def _crawl(self, urls):
         """Crawl nytime.com articles from given urls"""

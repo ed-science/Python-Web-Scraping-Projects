@@ -19,10 +19,7 @@ class BBCFootballCrawler:
         """Create class from teams file that has 1 team name per line"""
         teams = []
         with open(filename) as file:
-            for line in file:
-                if not line.strip():  # skip empty lines
-                    continue
-                teams.append(line.strip())
+            teams.extend(line.strip() for line in file if line.strip())
         return cls(teams)
 
     def crawl(self) -> Dict:
@@ -52,9 +49,7 @@ class BBCFootballCrawler:
             results['recent'].extend(team_data['recent'])
         session.close()
 
-        # check if there were teams configured that are not found on the page
-        missed_teams = set(self.teams) - set(found_teams)
-        if missed_teams:
+        if missed_teams := set(self.teams) - set(found_teams):
             raise NotImplementedError(f'Unsupported teams requested: {missed_teams}')
         return results
 

@@ -69,8 +69,7 @@ class Consumer:
         async with session.get(url, timeout=60) as response:
             html = await response.text()
             print(f'crawled: {url}')
-            parsed = self.parse_product(url, html)
-            if parsed:
+            if parsed := self.parse_product(url, html):
                 file.write(json.dumps(parsed) + '\n')
                 return parsed['url']
 

@@ -13,7 +13,7 @@ APP_DIR = Path(click.get_app_dir(APP_NAME))
 APP_DIR.mkdir(exist_ok=True, parents=True)
 DATA_FILE = APP_DIR / ('crawl_data' + '.json')
 DATA_FILE.touch(exist_ok=True)
-HISTORY_FILE = APP_DIR / (APP_NAME + '.history')
+HISTORY_FILE = APP_DIR / f'{APP_NAME}.history'
 HISTORY_FILE.touch(exist_ok=True)
 
 
@@ -27,8 +27,7 @@ def main(ctx):
 def read_data(path):
     """Load data from local data file"""
     with open(path, 'r') as f:
-        contents = f.read()
-        if contents:
+        if contents := f.read():
             return json.loads(contents)
         else:
             return {'upcoming': [], 'recent': []}
